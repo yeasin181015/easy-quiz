@@ -55,8 +55,11 @@ const QuestionsList = ({ fetchQuestions, questions, setQuestions }: Props) => {
   return (
     <div className="w-[85%] sm:w-[70%]">
       <div className="w-full flex flex-col space-y-6 rounded-md">
-        {questions?.map((que: any) => (
-          <div className="flex flex-col space-y-2 xs:flex-row justify-between items-center p-4 shadow-md">
+        {questions?.map((que: any, index: number) => (
+          <div
+            key={index}
+            className="flex flex-col space-y-2 xs:flex-row justify-between items-center p-4 shadow-md"
+          >
             <div>
               <p className="font-semibold text-md">{que.question}</p>
               <p className="text-sm italic">

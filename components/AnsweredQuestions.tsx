@@ -70,9 +70,9 @@ const AnsweredQuestions = ({
   return (
     <div>
       <ul>
-        {questionsAnswered?.map((item: any) => (
+        {questionsAnswered?.map((item: any, index: number) => (
           <li
-            key={item.questionId}
+            key={index}
             className={`${
               clickAns
                 ? "flex flex-col space-y-3"
@@ -116,7 +116,10 @@ const AnsweredQuestions = ({
                 <ul>
                   {clickedQue?.answerList?.map(
                     (ans: Answers, index: number) => (
-                      <li className="flex flex-col space-y-3 shadow-md rounded-md p-3 mb-3">
+                      <li
+                        key={index}
+                        className="flex flex-col space-y-3 shadow-md rounded-md p-3 mb-3"
+                      >
                         <div className="flex justify-between items-center">
                           <div>
                             <p>{ans.answer}</p>

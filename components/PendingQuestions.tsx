@@ -56,9 +56,9 @@ const PendingQuestions = ({
   return (
     <div>
       <ul>
-        {questionsUnanswered?.map((item: Question) => (
+        {questionsUnanswered?.map((item: Question, index: number) => (
           <li
-            key={item.questionId}
+            key={index}
             className="grid grid-cols-6 items-center justify-between mb-3 shadow-md p-4 rounded-md"
           >
             <div className="col-span-5 pr-4">

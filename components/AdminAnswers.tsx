@@ -45,8 +45,8 @@ const AdminAnswers = () => {
 
   return (
     <div className="w-full xs:w-[80%] md:w-[70%] mx-auto">
-      {allAnswers?.map((item) => (
-        <div className="p-3 shadow-md rounded-md mb-3">
+      {allAnswers?.map((item, index) => (
+        <div key={index} className="p-3 shadow-md rounded-md mb-3">
           <div>
             <h2 className="font-semibold text-md">{item?.question}</h2>
             <p className="text-sm italic">
@@ -58,8 +58,11 @@ const AdminAnswers = () => {
           </div>
           {item?.answerDetails?.length > 0 && (
             <ul className="ml-3 shadow-md rounded-md p-3 ">
-              {item?.answerDetails?.map((ans: any) => (
-                <li className="shadow-md rounded p-3 mb-2 bg-gray-100">
+              {item?.answerDetails?.map((ans: any, index: number) => (
+                <li
+                  key={index}
+                  className="shadow-md rounded p-3 mb-2 bg-gray-100"
+                >
                   <p>
                     Answered by:{" "}
                     <span className="font-semibold italic text-sm">
@@ -67,8 +70,11 @@ const AdminAnswers = () => {
                     </span>
                   </p>
                   <ul className="ml-3">
-                    {ans?.answers?.map((temp: any) => (
-                      <li className="shadow-md rounded-md p-2 mb-2 bg-gray-200">
+                    {ans?.answers?.map((temp: any, index: number) => (
+                      <li
+                        key={index}
+                        className="shadow-md rounded-md p-2 mb-2 bg-gray-200"
+                      >
                         <p>Answer: {temp.answer}</p>
                         <p className="text-sm italic">
                           Answered on: {handleDateFormat(temp.timestamp)}
