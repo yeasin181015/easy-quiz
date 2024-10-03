@@ -1,12 +1,12 @@
 "use client";
-import { Answers, Question } from "@/db/dexie";
-import { useQuizApp } from "@/hooks/useQuiz";
-import CollpaseUp from "@/icons/CollapseUp";
-import DownArrow from "@/icons/DownArrow";
+
 import Edit from "@/icons/Edit";
-import { handleDateFormat } from "@/utils/handleDateFormat";
-import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useRef, useState } from "react";
+import CollpaseUp from "@/icons/CollapseUp";
+import { useQuizApp } from "@/hooks/useQuiz";
+import { Answers, Question } from "@/db/dexie";
+import { handleDateFormat } from "@/utils/handleDateFormat";
 
 interface Props {
   questionsAnswered: any;
@@ -29,10 +29,10 @@ const AnsweredQuestions = ({
   fetchQuestionsForUsers,
 }: Props) => {
   const { db } = useQuizApp();
-  const ansRef = useRef<HTMLTextAreaElement | null>(null);
-  const [clickAns, setClickAns] = useState(false);
-  const [clickedQue, setClickedQue] = useState<AnsQues | null>(null);
   const [edit, setEdit] = useState(false);
+  const [clickAns, setClickAns] = useState(false);
+  const ansRef = useRef<HTMLTextAreaElement | null>(null);
+  const [clickedQue, setClickedQue] = useState<AnsQues | null>(null);
 
   const handleClick = (que: AnsQues) => {
     setClickAns(true);
@@ -56,6 +56,8 @@ const AnsweredQuestions = ({
       await db.answeredQuestions.update(item.id, data);
       fetchQuestionsForUsers();
       setEdit(false);
+      setClickAns(false);
+      setClickedQue(null);
     }
   };
 
@@ -77,12 +79,12 @@ const AnsweredQuestions = ({
               clickAns
                 ? "flex flex-col space-y-3"
                 : "flex flex-col space-y-2 xs:space-y-0 xs:flex-row justify-between items-center"
-            } mb-3 shadow-md p-4 rounded-md border border-black`}
+            } mb-3 shadow-md p-4 rounded-md border border-gray-200`}
           >
             <div className="flex justify-between items-center pr-4">
               <div>
                 <p className="font-semibold">{item.question}</p>
-                <p className="text-sm">
+                <p className="text-sm italic">
                   Posted on: {handleDateFormat(item.createdAt)}
                 </p>
               </div>
@@ -123,7 +125,7 @@ const AnsweredQuestions = ({
                         <div className="flex justify-between items-center">
                           <div>
                             <p>{ans.answer}</p>
-                            <p>
+                            <p className="text-sm italic">
                               Answered on: {handleDateFormat(ans.timestamp)}
                             </p>
                           </div>
@@ -165,13 +167,6 @@ const AnsweredQuestions = ({
                     )
                   )}
                 </ul>
-
-                {/* <button
-                className="flex items-center mt-3 space-x-2 bg-purple-800 hover:bg-purple-700 px-3 py-2 rounded-md text-white"
-                onClick={() => setClickAns(false)}
-              >
-                <span>Collapse</span>
-              </button> */}
               </div>
             )}
           </li>

@@ -48,6 +48,8 @@ const Answers = () => {
 
       setQuestionsAnswered(newData);
       setQuestionsUnanswered(unansweredQuestions);
+
+      return newData;
     }
   };
 
