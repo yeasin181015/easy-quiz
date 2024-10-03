@@ -10,23 +10,31 @@ const Signout = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
-
-  const handleSignout = () => {
-    localStorage.setItem("isAuthenticated", "false");
-    localStorage.removeItem("role");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("email");
-
-    router.push("/auth/signin");
-  };
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const userEmail = localStorage.getItem("email");
-    const userRole = localStorage.getItem("role");
-    userEmail && setEmail(userEmail);
-    userRole && setRole(userRole);
+    // Only run this on the client side
+    if (typeof window !== "undefined") {
+      const authStatus = localStorage.getItem("isAuthenticated");
+      setIsAuthenticated(authStatus === "true");
+
+      const userEmail = localStorage.getItem("email");
+      const userRole = localStorage.getItem("role");
+      userEmail && setEmail(userEmail);
+      userRole && setRole(userRole);
+    }
   }, [pathname]);
+
+  const handleSignout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("isAuthenticated", "false");
+      localStorage.removeItem("role");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("email");
+
+      router.push("/auth/signin");
+    }
+  };
 
   if (noNavbarRoutes.includes(pathname) || !isAuthenticated) {
     return null;

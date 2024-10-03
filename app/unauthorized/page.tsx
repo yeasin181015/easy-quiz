@@ -8,12 +8,11 @@ const UnAuthorized = () => {
   return (
     <div className="flex flex-col items-center">
       <Image src={Error} alt="" />
-      <p className="text-center">
-        You have been logged out due to an attempt to access a restricted page.
+      <p className="text-center italic">
+        Only Admin have access to this page. Sorry!
       </p>
-
-      <Link href="/answers" className="text-blue-800 underline italic text-sm">
-        Please login again!
+      <Link href="/answers" className="underline italic text-blue-800">
+        Go back
       </Link>
     </div>
   );

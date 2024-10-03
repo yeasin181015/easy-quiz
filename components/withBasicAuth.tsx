@@ -9,14 +9,15 @@ const withBasicAuth = (Component: React.ComponentType) => {
     const router = useRouter();
 
     useEffect(() => {
-      const isAuthenticated = localStorage.getItem("isAuthenticated");
+      if (typeof window !== "undefined") {
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
 
-      if (!isAuthenticated) {
-        router.push("/auth/signin");
-        return;
+        if (!isAuthenticated || isAuthenticated === "false") {
+          router.push("/auth/signin");
+        } else {
+          setAuthenticated(true);
+        }
       }
-
-      setAuthenticated(true);
     }, [router]);
 
     if (!authenticated) {
