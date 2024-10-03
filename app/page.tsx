@@ -6,17 +6,19 @@ import { useEffect } from "react";
 export default function Home() {
   const router = useRouter();
 
-  const role = localStorage.getItem("role");
-
   useEffect(() => {
-    if (role === "admin") {
-      router.push("/questions");
-    } else if (role === "user") {
-      router.push("/answers");
-    } else {
-      router.push("/auth/signin");
+    if (typeof window !== "undefined") {
+      const role = localStorage.getItem("role");
+
+      if (role === "admin") {
+        router.push("/questions");
+      } else if (role === "user") {
+        router.push("/answers");
+      } else {
+        router.push("/auth/signin");
+      }
     }
-  }, [router, role]);
+  }, [router]);
 
   return <Loading />;
 }
