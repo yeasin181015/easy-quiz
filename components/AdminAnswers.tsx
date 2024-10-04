@@ -47,7 +47,7 @@ const AdminAnswers = () => {
   }, [db]);
 
   return (
-    <div className="w-full text-center xs:w-[80%] md:w-[70%] mx-auto">
+    <div className="w-full xs:w-[80%] md:w-[70%] mx-auto">
       {allAnswers.length > 0 ? (
         allAnswers?.map((item, index) => (
           <div key={index} className="p-3 shadow-md rounded-md mb-3">
