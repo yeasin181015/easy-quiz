@@ -3,7 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   handlePasswordDecryption,
   handlePasswordEncryption,
@@ -40,7 +40,19 @@ const AuthCard = ({ buttonText, header, auth }: Props) => {
   const { db } = useQuizApp();
 
   const [role, setRole] = useState("user");
+  const [adminCreated, setAdminCreated] = useState(false);
 
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      const users = await db.users.toArray();
+
+      const alreadyCreated = users.find((user) => user.role === "admin");
+      if (alreadyCreated) {
+        setAdminCreated(true);
+      }
+    };
+    fetchAdmin();
+  }, [db]);
   const {
     register,
     handleSubmit,
@@ -77,21 +89,29 @@ const AuthCard = ({ buttonText, header, auth }: Props) => {
         toast("No such user exists!");
       }
     } else {
-      const securedPassword = handlePasswordEncryption(data.password);
+      const users = await db.users.toArray();
 
-      const userInfo = {
-        userId: uuidv4(),
-        email: data.email,
-        password: securedPassword,
-        role,
-      };
+      const exist = users.find((user) => user.email === data.email);
 
-      const res = await db.users.add(userInfo);
-      if (res) {
-        toast("User created successfully!");
-        router.push("/auth/signin");
+      if (!exist) {
+        const securedPassword = handlePasswordEncryption(data.password);
+
+        const userInfo = {
+          userId: uuidv4(),
+          email: data.email,
+          password: securedPassword,
+          role,
+        };
+
+        const res = await db.users.add(userInfo);
+        if (res) {
+          toast("User created successfully!");
+          router.push("/auth/signin");
+        } else {
+          toast("User couldn't be created!");
+        }
       } else {
-        toast("User couldn't be created!");
+        toast("This email is already registered!");
       }
     }
   };
@@ -108,7 +128,7 @@ const AuthCard = ({ buttonText, header, auth }: Props) => {
           className="flex flex-col space-y-5 w-full"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {auth === "signup" && (
+          {auth === "signup" && !adminCreated && (
             <div className="flex items-center space-x-3">
               <div className="flex items-center">
                 <input

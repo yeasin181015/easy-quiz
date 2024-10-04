@@ -41,7 +41,7 @@ const Signout = () => {
   }
 
   return (
-    <div className="z-10 flex justify-between items-center top-0 sticky w-full py-3 bg-black rounded-md">
+    <div className="z-10 flex justify-between items-center top-0 sticky w-full py-3 bg-black">
       <div className="w-full flex items-center justify-between px-3">
         <div className="flex justify-between w-[75%] xs:w-[65%] sm:w-[50%] text-white">
           <p>
