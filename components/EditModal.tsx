@@ -1,15 +1,7 @@
 "use client";
 import { useQuizApp } from "@/hooks/useQuiz";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
 
 interface Props {
   modalIsOpen: boolean;
@@ -18,6 +10,18 @@ interface Props {
   header: string;
   question: any;
 }
+
+const getModalWidth = () => {
+  if (window.innerWidth >= 1280) {
+    return "40%";
+  } else if (window.innerWidth >= 1024) {
+    return "50%";
+  } else if (window.innerWidth >= 768) {
+    return "70%";
+  } else {
+    return "90%";
+  }
+};
 
 const EditModal = ({
   modalIsOpen,
@@ -28,6 +32,19 @@ const EditModal = ({
 }: Props) => {
   const queRef = useRef<HTMLInputElement>(null);
   const { db } = useQuizApp();
+
+  const [modalWidth, setModalWidth] = useState(getModalWidth());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setModalWidth(getModalWidth());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const editQuestion = async () => {
     if (queRef.current) {
@@ -41,13 +58,21 @@ const EditModal = ({
     }
   };
 
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: modalWidth,
+    },
+  };
+
   return (
     <>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
       >
         <h2 className="text-center font-bold text-xl">{header}</h2>
         <div className="h-[80%] flex flex-col justify-center items-center space-y-5">
