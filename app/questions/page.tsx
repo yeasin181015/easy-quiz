@@ -43,6 +43,7 @@ const Questions = () => {
       toast("Question created successfully!");
       queRef.current.value = "";
       await fetchQuestions();
+      setShowInput(false);
     }
   };
 
