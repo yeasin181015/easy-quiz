@@ -97,9 +97,11 @@ const AdminAnswers = () => {
           <Image src={Empty} alt="" />
         </div>
       )}
-      <button className="px-3 py-2 bg-purple-800 hover:bg-purple-600 rounded-md text-white">
-        <Link href="/questions">Go back</Link>
-      </button>
+      <div className="flex justify-center">
+        <button className="px-3 py-2 bg-purple-800 hover:bg-purple-600 rounded-md text-white">
+          <Link href="/questions">Go back</Link>
+        </button>
+      </div>
     </div>
   );
 };
