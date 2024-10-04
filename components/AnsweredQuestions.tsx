@@ -79,7 +79,7 @@ const AnsweredQuestions = ({
             <li
               key={index}
               className={`${
-                clickAns
+                clickAns && clickedQue?.questionId === item.questionId
                   ? "flex flex-col space-y-3"
                   : "flex flex-col space-y-2 xs:space-y-0 xs:flex-row justify-between items-center"
               } mb-3 shadow-md p-4 rounded-md border border-gray-200`}
@@ -91,7 +91,7 @@ const AnsweredQuestions = ({
                     Posted on: {handleDateFormat(item.createdAt)}
                   </p>
                 </div>
-                {(clickAns || clickedQue?.questionId === item.questionId) && (
+                {clickAns && clickedQue?.questionId === item.questionId && (
                   <div
                     className="col-span-1 cursor-pointer w-fit"
                     onClick={() => {
